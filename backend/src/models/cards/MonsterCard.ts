@@ -24,7 +24,7 @@ export class MonsterCard extends Card {
     this.reward = reward;
   }
 
-  combate(jogador: Player): boolean {
+  fight(jogador: Player): boolean {
     console.log(`${jogador.name} está enfrentando o monstro ${this.name}.`);
     if (jogador.bonus >= this.level) {
       console.log(`${jogador.name} derrotou o monstro ${this.name}!`);

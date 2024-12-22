@@ -1,5 +1,5 @@
 import { DeckType } from "../types/types";
-import { Card } from "./Cards/Card";
+import { Card } from "./cards/Card";
 
 export class Deck {
     type: DeckType;

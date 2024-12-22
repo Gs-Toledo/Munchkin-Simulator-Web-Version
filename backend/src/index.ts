@@ -1,9 +1,9 @@
 import { Player } from "./models/Player";
 import { Deck } from "./models/Deck";
 import { Game } from "./models/Game";
-import { MonsterCard } from "./models/Cards/MonsterCard";
-import { EquipmentCard } from "./models/Cards/EquipmentCard";
-import { TreasureCard } from "./models/Cards/TreasureCard";
+import { MonsterCard } from "./models/cards/MonsterCard";
+import { EquipmentCard } from "./models/cards/EquipmentCard";
+import { TreasureCard } from "./models/cards/TreasureCard";
 
 const player1 = new Player("Jorge Madeirudo");
 const player2 = new Player("Ana Banana");

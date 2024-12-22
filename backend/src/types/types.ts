@@ -34,3 +34,10 @@ export enum DeckType {
   Trasure= 'Treasure',
   Discard = 'Discard'
 }
+
+export enum SocketType {
+  HEAD = "Head",
+  BODY = "Body",
+  HANDS = "Hands",
+  FEET = "Feet"
+}

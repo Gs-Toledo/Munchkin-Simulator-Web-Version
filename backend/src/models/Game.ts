@@ -1,10 +1,10 @@
 import { Player } from "./Player";
-import { Card } from "./Cards/Card";
+import { Card } from "./cards/Card";
 import { Deck } from "./Deck";
 import { Monster } from "./Monster";
 import { CardType, DeckType } from "../types/types";
 import { TurnPhase } from "../types/types";
-import { MonsterCard } from "./Cards/MonsterCard";
+import { MonsterCard } from "./cards/MonsterCard";
 
 export class Game {
   players: Player[];

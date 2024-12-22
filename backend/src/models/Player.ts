@@ -1,8 +1,8 @@
 // Player.ts
 
 import { Race, Class } from "../types/types";
-import { Card } from "./Cards/Card";
-import { EquipmentCard } from "./Cards/EquipmentCard";
+import { Card } from "./cards/Card";
+import { EquipmentCard } from "./cards/EquipmentCard";
 export class Player {
   name: string;
   level: number;
