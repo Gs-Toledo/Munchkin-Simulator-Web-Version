@@ -1,21 +1,21 @@
 import { Player } from "./models/Player";
-import { Card, CardType } from "./models/Cards/Card";
 import { Deck } from "./models/Deck";
 import { Game } from "./models/Game";
+import { MonsterCard } from "./models/Cards/MonsterCard";
+import { EquipmentCard } from "./models/Cards/EquipmentCard";
+import { TreasureCard } from "./models/Cards/TreasureCard";
 
 const player1 = new Player("Jorge Madeirudo");
 const player2 = new Player("Ana Banana");
 
 // cartas exemplo
 const cards = [
-    new Card("Goblin", CardType.MONSTER, "Um pequeno goblin assustador."),
-    new Card("Espada de Madeira", CardType.EQUIPMENT, "Aumenta +1 no combate."),
-    new Card("Tesouro Perdido", CardType.TREASURE, "Ganhe um tesouro extra."),
+  new MonsterCard(24, "Goblin", 4, 2, "Um pequeno goblin assustador."),
+  new EquipmentCard(33, "Espada de Madeira", 1, "Aumenta +1 no combate."),
+  new TreasureCard(88,"Tesouro Perdido", 600, "Ganhe um tesouro extra."),
 ];
 
-
-const deck = new Deck(cards);
-
+const deck = new Deck();
 
 const game = new Game([player1, player2], deck);
 game.start();
