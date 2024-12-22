@@ -1,7 +1,8 @@
 // Player.ts
 
-import { Race, Class, Card, EquipmentCard } from "../types/types";
-
+import { Race, Class } from "../types/types";
+import { Card } from "./Cards/Card";
+import { EquipmentCard } from "./Cards/EquipmentCard";
 export class Player {
   name: string;
   level: number;
@@ -10,6 +11,7 @@ export class Player {
   hand: Card[];
   equipedItems: EquipmentCard[];
   treasures: number;
+  bonus: number;
 
   constructor(
     name: string,
@@ -18,15 +20,17 @@ export class Player {
   ) {
     this.name = name;
     this.level = 1;
-    this.race = race; 
-    this.class = playerClass; 
-    this.hand = []; 
+    this.race = race;
+    this.class = playerClass;
+    this.hand = [];
     this.equipedItems = [];
-    this.treasures = 0; 
+    this.treasures = 0;
+    this.bonus = 1;
   }
 
   levelUp(): void {
     this.level++;
+    this.bonus++;
     console.log(`${this.name} subiu para o nível ${this.level}`);
   }
 
@@ -38,6 +42,21 @@ export class Player {
   addCardToHand(card: Card): void {
     this.hand.push(card);
     console.log(`${this.name} recebeu a carta "${card.name}"`);
+  }
+
+  removeCardFromHand(player: Player, cardName: string): void {
+    const cardIndex = player.hand.findIndex((card) => card.name === cardName);
+
+    if (cardIndex !== -1) {
+      const [removedCard] = player.hand.splice(cardIndex, 1);
+      console.log(
+        `${player.name} removeu a carta "${removedCard.name}" da mão.`
+      );
+    } else {
+      console.log(
+        `Carta "${cardName}" não encontrada na mão de ${player.name}.`
+      );
+    }
   }
 
   equipItem(item: EquipmentCard): void {
@@ -61,5 +80,25 @@ export class Player {
         `Item "${itemName}" não encontrado entre os itens equipados.`
       );
     }
+  }
+  setRace(newRace: Race): void {
+    this.race = newRace;
+    console.log(`${this.name} mudou para a raça ${this.race}`);
+  }
+
+  // Método para setar a classe
+  setClass(newClass: Class): void {
+    this.class = newClass;
+    console.log(`${this.name} mudou para a classe ${this.class}`);
+  }
+
+  calculateTotalBonus(): number {
+    const itemBonus = this.equipedItems.reduce(
+      (total, item) => total + item.bonus,
+      0
+    );
+    const totalBonus = this.level + itemBonus;
+
+    return totalBonus;
   }
 }

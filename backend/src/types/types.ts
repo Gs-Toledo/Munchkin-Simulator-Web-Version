@@ -13,12 +13,24 @@ export enum Class {
   Noob = "Noob", // Sem Classe
 }
 
-export interface Card {
-  name: string;
-  description: string;
+export enum CardType {
+    MONSTER,
+    TREASURE,
+    CURSE,
+    EQUIPMENT,
+    CLASS,
+    RACE
 }
 
-export interface EquipmentCard extends Card {
-  bonus: number;
-  isEquipped: boolean;
+export enum TurnPhase {
+    START = "START",  // Fase inicial do turno
+    DRAW = "DRAW",    // Fase de comprar carta
+    PLAY = "PLAY",    // Fase de jogar cartas ou atacar monstros
+    END = "END"       // Fase final do turno
+}
+
+export enum DeckType {
+  Door = 'Door',
+  Trasure= 'Treasure',
+  Discard = 'Discard'
 }

@@ -1,5 +1,5 @@
 import { Player } from "./models/Player";
-import { Card, CardType } from "./models/Card";
+import { Card, CardType } from "./models/Cards/Card";
 import { Deck } from "./models/Deck";
 import { Game } from "./models/Game";
 
