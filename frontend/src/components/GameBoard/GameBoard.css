@@ -1,0 +1,17 @@
+.game-board {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .players {
+    width: 30%;
+  }
+  
+  .cards {
+    width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  

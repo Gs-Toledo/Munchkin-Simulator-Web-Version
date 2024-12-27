@@ -1,0 +1,15 @@
+.action-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .action-button:hover {
+    background: #0056b3;
+  }
+  

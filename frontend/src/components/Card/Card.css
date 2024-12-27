@@ -1,0 +1,29 @@
+.card {
+    width: 150px;
+    border: 2px solid #000;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-content {
+    padding: 10px;
+    background: #fff;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .card-description {
+    font-size: 0.8rem;
+    color: #666;
+  }
+  

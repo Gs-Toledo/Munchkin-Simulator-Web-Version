@@ -1,0 +1,14 @@
+.instructions-page {
+    padding: 20px;
+  }
+  
+  .instructions-page ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .instructions-page li {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  
