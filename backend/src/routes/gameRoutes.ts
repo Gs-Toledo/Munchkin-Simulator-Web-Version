@@ -1,22 +1,11 @@
 import { Router, Request, Response } from "express";
 import { Game } from "../models/Game";
 import { Player } from "../models/Player";
-import { Deck } from "../models/Deck";
-import { MonsterCard } from "../models/cards/MonsterCard";
-import { EquipmentCard } from "../models/cards/EquipmentCard";
-import { TreasureCard } from "../models/cards/TreasureCard";
-import { SocketType } from "../types/types";
 
 const router = Router();
 
 // Cartas de exemplo
-const cards = [
-  new MonsterCard(24, "Goblin", 4, 2, "Um pequeno goblin assustador."),
-  new EquipmentCard(33, "Espada de Madeira", 1, "Aumenta +1 no combate.", SocketType.HANDS),
-  new TreasureCard(88, "Tesouro Perdido", 600, "Ganhe um tesouro extra."),
-];
 
-const deck = new Deck(cards);
 const game = new Game([], deck);
 
 // Endpoint para adicionar um jogador
