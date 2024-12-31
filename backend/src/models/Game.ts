@@ -1,7 +1,5 @@
 import { Player } from "./Player";
-import { Card } from "./cards/Card";
 import { Deck } from "./Deck";
-import { Monster } from "./Monster";
 import { CardType, DeckType } from "../types/types";
 import { TurnPhase } from "../types/types";
 import { MonsterCard } from "./cards/MonsterCard";
@@ -65,7 +63,7 @@ export class Game {
 
   // Lida com uma carta de monstro
   handleMonsterCard(player: Player, card: MonsterCard): void {
-    const monster = new Monster(card.name, card.level, card.reward); // Exemplo básico
+    const monster = new MonsterCard(card.name, card.level, card.reward); // Exemplo básico
     console.log(`${player.name} encontrou o monstro ${monster.name}!`);
 
     const won = monster.fight(player.level);
