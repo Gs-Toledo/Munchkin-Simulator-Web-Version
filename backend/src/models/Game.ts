@@ -4,6 +4,7 @@ import { CardType, DeckType } from "../types/types";
 import { TurnPhase } from "../types/types";
 import { MonsterCard } from "./cards/MonsterCard";
 import { Card } from "./cards/Card";
+import { Bot } from "./bot";
 
 export class Game {
   players: Player[];
@@ -61,6 +62,18 @@ export class Game {
     console.log(`Jogador ${player.name} foi adicionado ao jogo.`);
   }
 
+  addBot(botName: string): void {
+    if (this.players.length >= Game.MAX_PLAYERS) {
+      console.log("Não é possível adicionar mais bots. Limite atingido.");
+      return;
+    }
+
+    const bot = new Bot(botName);
+    
+    this.players.push(bot);
+    console.log(`Bot ${bot.name} foi adicionado ao jogo.`);
+  }
+
   removePlayer(playerName: string): void {
     if (this.players.length <= Game.MIN_PLAYERS) {
       console.log(
@@ -107,6 +120,11 @@ export class Game {
     this.turnIndex = (this.turnIndex + 1) % this.players.length;
     this.actualPlayer = this.players[this.turnIndex];
     this.turnPhase = TurnPhase.START;
+
+    if (this.actualPlayer instanceof Bot) {
+      this.actualPlayer.takeTurn(this); // Faz o bot executar sua vez automaticamente
+    }
+
     console.log(`Agora é a vez de ${this.actualPlayer.name}`);
   }
 

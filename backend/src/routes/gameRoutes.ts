@@ -3,6 +3,7 @@ import { Game } from "../models/Game";
 import { Player } from "../models/Player";
 import { Deck } from "../models/Deck";
 import { DeckType } from "../types/types";
+import { Bot } from "../models/bot";
 
 const router = Router();
 
@@ -23,6 +24,48 @@ router.post("/add-player", (req: Request, res: Response): any => {
     const player = new Player(name);
     game.addPlayer(player);
     res.status(201).json({ message: `Player ${name} added.`, player });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Endpoint para adicionar um bot
+router.post("/add-bot", (req: Request, res: Response): any => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).send("Name is required.");
+  }
+
+  try {
+    const bot = new Bot(name);
+    game.addPlayer(bot); // Os bots também são adicionados como jogadores
+    res.status(201).json({ message: `Bot ${name} added.`, bot });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Endpoint para remover um jogador
+router.delete("/remove-player", (req: Request, res: Response): any => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).send("Player name is required.");
+  }
+
+  try {
+    const player = game.getPlayerByName(name);
+    if (!player) {
+      return res.status(404).send("Player not found.");
+    }
+
+    game.removePlayer(name);
+
+    // Verifica se o jogador removido é um bot
+    if (player instanceof Bot) {
+      res.status(200).json({ message: `Bot ${name} removed.` });
+    } else {
+      res.status(200).json({ message: `Player ${name} removed.` });
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
