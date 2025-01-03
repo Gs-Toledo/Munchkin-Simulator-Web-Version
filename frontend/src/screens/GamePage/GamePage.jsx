@@ -17,7 +17,6 @@ const App = () => {
     { name: "Jogador 2", level: 1 },
     { name: "Jogador 3", level: 1 },
     { name: "Jogador 4", level: 1 },
-    { name: "Jogador 5", level: 1 },
   ];
 
   return (
