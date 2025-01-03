@@ -1,7 +1,7 @@
 import React from "react";
 import "./Card.css"; // Arquivo CSS para o estilo
 
-const Card = ({ title, description, image }) => {
+const Card = ({ type, title, description, image }) => {
   return (
     <div className="card">
       <img src={image} alt={title} className="card-image" />
