@@ -7,13 +7,13 @@ import { DeckType } from "../types/types";
 const router = Router();
 
 // Inicializar os baralhos
-const treasureDeck = new Deck(DeckType.Treasure); 
+const treasureDeck = new Deck(DeckType.Treasure);
 const doorDeck = new Deck(DeckType.Door);
 
-const game = new Game([], treasureDeck, doorDeck); 
+const game = new Game([], treasureDeck, doorDeck);
 
 // Endpoint para adicionar um jogador
-router.post("/add-player", (req: Request, res: Response) : any => {
+router.post("/add-player", (req: Request, res: Response): any => {
   const { name } = req.body;
   if (!name) {
     return res.status(400).send("Name is required.");
@@ -35,10 +35,19 @@ router.get("/players", (req: Request, res: Response) => {
 });
 
 // Endpoint para jogador comprar uma carta
-router.post("/draw-card", (req: Request, res: Response) : any => {
-  const { playerName } = req.body;
+router.post("/draw-card", (req: Request, res: Response): any => {
+  const { playerName, deckType } = req.body;
+
   if (!playerName) {
     return res.status(400).send("Player name is required.");
+  }
+
+  if (!deckType) {
+    return res.status(400).send("Deck type is required.");
+  }
+
+  if (deckType !== DeckType.Treasure && deckType !== DeckType.Door) {
+    return res.status(400).send("Invalid deck type. Use 'Treasure' or 'Door'.");
   }
 
   const player = game.getPlayerByName(playerName);
@@ -47,10 +56,17 @@ router.post("/draw-card", (req: Request, res: Response) : any => {
   }
 
   try {
-    const card = game.drawCard(player, DeckType.Treasure); 
+    // Selecionar o deck com base no tipo passado
+    const card = game.drawCard(player, deckType as DeckType); // Garantir que deckType seja do tipo DeckType
+
+    // Responder com a carta
     res.status(200).json({ message: `${player.name} drew a card.`, card });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    // Erro ao tentar pegar a carta
+    res.status(500).json({
+      error:
+        error instanceof Error ? error.message : "An unknown error occurred.",
+    });
   }
 });
 
