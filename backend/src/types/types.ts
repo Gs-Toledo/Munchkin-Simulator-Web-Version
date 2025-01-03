@@ -31,7 +31,7 @@ export enum TurnPhase {
 
 export enum DeckType {
   Door = 'Door',
-  Trasure= 'Treasure',
+  Treasure = 'Treasure',
   Discard = 'Discard'
 }
 

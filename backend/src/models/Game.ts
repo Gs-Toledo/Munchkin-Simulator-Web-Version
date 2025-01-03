@@ -3,18 +3,32 @@ import { Deck } from "./Deck";
 import { CardType, DeckType } from "../types/types";
 import { TurnPhase } from "../types/types";
 import { MonsterCard } from "./cards/MonsterCard";
+import { Card } from "./cards/Card";
 
 export class Game {
   players: Player[];
   actualPlayer: Player | null;
-  deck: Deck;
+  treasureDeck: Deck;
+  doorDeck: Deck;
   discardPile: Deck;
   turnPhase: TurnPhase;
   turnIndex: number;
+  static readonly MIN_PLAYERS = 3;
+  static readonly MAX_PLAYERS = 6;
 
-  constructor(players: Player[], deck: Deck) {
+  constructor(players: Player[], treasureDeck: Deck, doorDeck: Deck) {
+    if (
+      players.length < Game.MIN_PLAYERS ||
+      players.length > Game.MAX_PLAYERS
+    ) {
+      throw new Error(
+        `Número de jogadores inválido. Deve estar entre ${Game.MIN_PLAYERS} e ${Game.MAX_PLAYERS}.`
+      );
+    }
+
     this.players = players;
-    this.deck = deck;
+    this.treasureDeck = treasureDeck;
+    this.doorDeck = doorDeck;
     this.discardPile = new Deck(DeckType.Discard);
     this.turnPhase = TurnPhase.START;
     this.turnIndex = 0;
@@ -32,7 +46,63 @@ export class Game {
     console.log(`O primeiro jogador é ${this.actualPlayer.name}`);
   }
 
-  // Gerencia a troca de turnos
+  addPlayer(player: Player): void {
+    if (this.players.length >= Game.MAX_PLAYERS) {
+      console.log("Não é possível adicionar mais jogadores. Limite atingido.");
+      return;
+    }
+
+    if (this.players.find((p) => p.name === player.name)) {
+      console.log(`Jogador ${player.name} já está na lista.`);
+      return;
+    }
+
+    this.players.push(player);
+    console.log(`Jogador ${player.name} foi adicionado ao jogo.`);
+  }
+
+  removePlayer(playerName: string): void {
+    if (this.players.length <= Game.MIN_PLAYERS) {
+      console.log(
+        `Não é possível remover jogadores. O jogo precisa de pelo menos ${Game.MIN_PLAYERS} jogadores.`
+      );
+      return;
+    }
+
+    const playerIndex = this.players.findIndex((p) => p.name === playerName);
+    if (playerIndex === -1) {
+      console.log(`Jogador ${playerName} não encontrado na lista.`);
+      return;
+    }
+
+    const removedPlayer = this.players.splice(playerIndex, 1)[0];
+    console.log(`Jogador ${removedPlayer.name} foi removido do jogo.`);
+
+    // Ajusta o jogador atual e índice do turno se necessário
+    if (this.actualPlayer?.name === removedPlayer.name) {
+      this.turnIndex = this.turnIndex % this.players.length;
+      this.actualPlayer = this.players[this.turnIndex] || null;
+      console.log(
+        `O jogador atual foi atualizado para ${
+          this.actualPlayer ? this.actualPlayer.name : "nenhum"
+        }.`
+      );
+    }
+  }
+
+  getPlayers(): Player[] {
+    return this.players;
+  }
+
+  getPlayerByName(name: string): Player | null {
+    const player = this.players.find((p) => p.name === name);
+    if (!player) {
+      console.log(`Jogador com nome "${name}" não encontrado.`);
+      return null;
+    }
+    return player;
+  }
+
   nextTurn(): void {
     this.turnIndex = (this.turnIndex + 1) % this.players.length;
     this.actualPlayer = this.players[this.turnIndex];
@@ -40,45 +110,44 @@ export class Game {
     console.log(`Agora é a vez de ${this.actualPlayer.name}`);
   }
 
-  // Compra uma carta do baralho principal
-  drawCard(player: Player): void {
-    const card = this.deck.drawCard();
-    if (!card) {
-      console.log("O baralho está vazio.");
-      return;
+  drawCard(player: Player, deckType: DeckType): Card | null {
+    let card: Card | null = null;
+
+    // Compra uma carta dependendo do tipo de baralho escolhido (Tesouro ou Porta)
+    if (deckType === DeckType.Treasure) {
+      card = this.treasureDeck.drawCard();
+    } else if (deckType === DeckType.Door) {
+      card = this.doorDeck.drawCard();
     }
 
-    console.log(`${player.name} comprou a carta: ${card.name}`);
+    if (!card) {
+      console.log(
+        `O baralho ${DeckType[deckType]} está vazio ou não contém mais cartas.`
+      );
+      return null;
+    }
+
+    console.log(
+      `${player.name} comprou a carta: ${card.name} (${CardType[card.type]}).`
+    );
     player.addCardToHand(card);
 
-    // Lida com cartas de tipo monster
+    // Lida com cartas de tipo MONSTER
     if (card.type === CardType.MONSTER) {
       this.handleMonsterCard(player, card as MonsterCard);
-    } else {
-      console.log(
-        `A carta ${card.name} foi adicionada à mão de ${player.name}`
-      );
     }
+
+    return card;
   }
 
-  // Lida com uma carta de monstro
-  handleMonsterCard(player: Player, card: MonsterCard): void {
-    const monster = new MonsterCard(card.name, card.level, card.reward); // Exemplo básico
-    console.log(`${player.name} encontrou o monstro ${monster.name}!`);
-
-    const won = monster.fight(player.level);
-    if (won) {
-      player.levelUp();
-      console.log(`${player.name} derrotou o monstro ${monster.name}`);
-    } else {
-      console.log(`${player.name} perdeu para o monstro ${monster.name}`);
-    }
+  handleMonsterCard(player: Player, monsterCard: MonsterCard): void {
+    console.log(`${player.name} encontrou o monstro ${monsterCard.name}!`);
+    monsterCard.fight(player);
 
     // Move a carta para a pilha de descarte
-    this.discardPile.addCard(card);
+    this.discardPile.addCard(monsterCard);
   }
 
-  // Descarte de carta
   discardCard(player: Player, cardName: string): void {
     const cardIndex = player.hand.findIndex((card) => card.name === cardName);
     if (cardIndex !== -1) {
@@ -90,7 +159,6 @@ export class Game {
     }
   }
 
-  // Gerencia as fases do turno
   progressTurnPhase(): void {
     switch (this.turnPhase) {
       case TurnPhase.START:
