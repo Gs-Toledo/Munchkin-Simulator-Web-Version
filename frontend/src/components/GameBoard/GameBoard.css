@@ -137,12 +137,12 @@
 }
 
 .player-slot {
-  background-color: #444; /* Fundo escuro */
-  border: 2px solid #666; /* Borda escura */
+  background-color: white;
+  border: 2px solid #666;
   padding: 12px;
   border-radius: 12px;
   text-align: center;
-  color: white;
+  color: black;
   transition: transform 0.2s ease-in-out, background-color 0.3s ease;
 }
 
@@ -152,27 +152,10 @@
 }
 
 .side-slot {
-  width: 140px;
+  width: 100%;
 }
 
 .top-slot,
 .bottom-slot {
-  width: 180px;
-}
-
-.deck-button {
-  padding: 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  background-color: #f4f4f9;
-  color: #333;
-  border: 2px solid #666;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
-}
-
-.deck-button:hover {
-  background-color: #e0e0e0; /* Cor ao passar o mouse */
-  transform: translateY(-3px);
+  width: 100%;
 }

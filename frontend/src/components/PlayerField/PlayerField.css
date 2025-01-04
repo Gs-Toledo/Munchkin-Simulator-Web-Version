@@ -1,0 +1,38 @@
+.player-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+  
+  .section-title {
+    font-size: 0.9rem;
+    color: #ddd;
+    margin: 0 0 8px 0;
+  }
+  
+  .equipment-section,
+  .buffs-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .equipment-cards,
+  .buff-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .equipment-card,
+  .buff-card {
+    transition: transform 0.2s;
+  }
+  
+  .equipment-card:hover,
+  .buff-card:hover {
+    transform: scale(1.1);
+    z-index: 1;
+  }
