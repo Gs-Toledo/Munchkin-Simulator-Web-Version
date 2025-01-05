@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 10px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
   }
@@ -22,7 +21,7 @@
   .equipment-cards,
   .buff-cards {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     gap: 8px;
   }
   

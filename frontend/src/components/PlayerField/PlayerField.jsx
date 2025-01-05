@@ -20,7 +20,7 @@ const PlayerField = ({ equipment = [], buffs = [] }) => {
         <div className="buff-cards">
           {buffs.map((buff, index) => (
             <div key={index} className="buff-card">
-              <Card {...buff} />
+              <Card {...buff}/>
             </div>
           ))}
         </div>

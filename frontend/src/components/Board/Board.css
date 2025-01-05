@@ -3,10 +3,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333; /* Fundo mais escuro para o centro */
-    border: 3px solid #555; /* Borda escura */
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     padding: 30px;
   }
   

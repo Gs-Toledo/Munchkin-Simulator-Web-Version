@@ -6,7 +6,7 @@
     border-radius: 8px;
   }
   
-  .hand-cards {
+  .hand {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -20,4 +20,14 @@
   .hand-card:hover {
     transform: translateY(-10px);
     z-index: 1;
+  }
+
+  .card-item {
+    cursor: pointer;
+    position: absolute;
+    transform-origin: bottom center;
+  }
+
+  .card-item:hover {
+    transform: scale(1.1) translateY(-10px);
   }

@@ -13,13 +13,15 @@
   }
   
   .card-content {
-    padding: 10px;
+    padding-bottom: 10px;
     background: #fff;
   }
   
   .card-title {
+    padding: 2px;
     font-size: 1rem;
     font-weight: bold;
+    background-color: beige;
   }
   
   .card-description {
