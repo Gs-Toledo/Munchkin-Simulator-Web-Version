@@ -32,8 +32,9 @@
 }
 
 .board-content {
-  width: 90%;
-  height: 90%;
+  width: 50%;
+  height: 70%;
+  justify-items: center;
   display: grid;
   grid-template-rows: 1fr auto 1fr;
   grid-template-columns: 1fr auto 1fr;
