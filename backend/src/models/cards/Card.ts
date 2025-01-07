@@ -1,31 +1,38 @@
 import { CardType } from "../../types/types";
 import { Player } from "../Player";
+import { CardEffect } from "../interface/CardEffect"; 
 
 export abstract class Card {
-    id: number;        
-    name: string;       
-    type: CardType;      // Tipo da carta (Raca, Classe, Equipamento, Monstro, etc.)
-    effect: string;      // Efeito da carta (descrito como string)
-    description: string; // Descrição adicional da carta
+  id: number;
+  description: string;
+  name: string;
+  type: CardType;      
+  effect: CardEffect; 
 
-    constructor(id: number, name: string, type: CardType, effect: string, description: string) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.effect = effect;
-        this.description = description;
-    }
+  constructor(
+    id: number,
+    name: string,
+    type: CardType,
+    effect: CardEffect,
+    description: string
+  ) {
+    this.id = id;
+    this.name = name;
+    this.type = type;
+    this.effect = effect;
+    this.description = description;
+  }
 
-    // Método para exibir informações básicas da carta
-    displayInfo(): void {
-        console.log(`Carta: ${this.name}`);
-        console.log(`Descrição: ${this.description}`);
-        console.log(`Efeito: ${this.effect}`);
-    }
+  displayInfo(): void {
+    console.log(`Carta: ${this.name}`);
+    console.log(`Descrição: ${this.description}`);
+    console.log("Efeito da carta:");
+    
+    this.effect.displayInfo();
+  }
 
-    // Método genérico para jogar uma carta
-    play(player: Player): void {
-        console.log(`${player.name} jogou a carta: ${this.name}`);
-        
-    }
+  play(player: Player): void {
+    console.log(`${player.name} jogou a carta: ${this.name}`);
+    this.effect.applyEffect();
+  }
 }

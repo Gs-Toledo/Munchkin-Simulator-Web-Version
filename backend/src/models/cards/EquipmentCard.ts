@@ -1,29 +1,33 @@
 import { Card } from "./Card";
 import { CardType, SocketType } from "../../types/types";
 import { Player } from "../Player";
+import { CardEffect } from "../interface/CardEffect";
 
 export class EquipmentCard extends Card {
   bonus: number;
   isEquipped: boolean;
   socket: SocketType;
+  value: number;
 
   constructor(
     id: number,
     name: string,
     bonus: number,
     description: string,
-    socket: SocketType
+    socket: SocketType,
+    effect: CardEffect
   ) {
     super(
       id,
       name,
       CardType.EQUIPMENT,
-      `Concede bônus de ${bonus}`,
+      effect,
       description
     );
     this.bonus = bonus;
     this.isEquipped = false;
     this.socket = socket;
+    this.value = 0;
   }
 
   equip(player: Player): void {

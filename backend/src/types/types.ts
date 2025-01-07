@@ -10,23 +10,27 @@ export enum Class {
   Wizard = "Wizard",
   Thief = "Thief",
   Cleric = "Cleric",
-  Noob = "Noob", // Sem Classe
+  Noob = "Noob",
 }
 
 export enum CardType {
     MONSTER,
-    TREASURE,
     CURSE,
     EQUIPMENT,
     CLASS,
     RACE
 }
 
+export enum EffectType {
+  POSITIVE,
+  NEGATIVE
+}
+
 export enum TurnPhase {
-    START = "START",  // Fase inicial do turno
-    DRAW = "DRAW",    // Fase de comprar carta
-    PLAY = "PLAY",    // Fase de jogar cartas ou atacar monstros
-    END = "END"       // Fase final do turno
+    START = "START",  
+    DRAW = "DRAW",    
+    PLAY = "PLAY",    
+    END = "END"       
 }
 
 export enum DeckType {

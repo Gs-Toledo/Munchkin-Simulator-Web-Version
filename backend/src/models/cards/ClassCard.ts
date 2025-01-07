@@ -13,13 +13,13 @@ export class ClassCard extends Card {
     }
 
     equip(player: Player): void {
-        player.class = this.class; // Define a classe do jogador
+        player.playerClass = this.class; // Define a classe do jogador
         player.bonus += this.bonus;
         console.log(`${player.name} equipou a classe ${this.name} e recebeu um bônus de ${this.bonus}.`);
     }
 
     unequip(player: Player): void {
-        player.class = Class.Noob; // Remove a classe do jogador
+        player.playerClass = Class.Noob; // Remove a classe do jogador
         player.bonus -= this.bonus;
         console.log(`${player.name} removeu a classe ${this.name} e perdeu o bônus de ${this.bonus}.`);
     }

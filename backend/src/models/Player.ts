@@ -7,7 +7,7 @@ export class Player {
   name: string;
   level: number;
   race: Race;
-  class: Class;
+  playerClass: Class;
   hand: Card[];
   equipedItems: EquipmentCard[];
   treasures: number;
@@ -21,7 +21,7 @@ export class Player {
     this.name = name;
     this.level = 1;
     this.race = race;
-    this.class = playerClass;
+    this.playerClass = playerClass;
     this.hand = [];
     this.equipedItems = [];
     this.treasures = 0;
@@ -88,8 +88,8 @@ export class Player {
 
   // Método para setar a classe
   setClass(newClass: Class): void {
-    this.class = newClass;
-    console.log(`${this.name} mudou para a classe ${this.class}`);
+    this.playerClass = newClass;
+    console.log(`${this.name} mudou para a classe ${this.playerClass}`);
   }
 
   calculateTotalBonus(): number {

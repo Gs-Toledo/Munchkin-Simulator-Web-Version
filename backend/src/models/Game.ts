@@ -4,20 +4,28 @@ import { CardType, DeckType } from "../types/types";
 import { TurnPhase } from "../types/types";
 import { MonsterCard } from "./cards/MonsterCard";
 import { Card } from "./cards/Card";
-import { Bot } from "./bot";
+import { Bot } from "./Bot";
 
 export class Game {
-  players: Player[];
-  actualPlayer: Player | null;
-  treasureDeck: Deck;
-  doorDeck: Deck;
-  discardPile: Deck;
-  turnPhase: TurnPhase;
-  turnIndex: number;
+  private static instance: Game | null = null;
+
+  private players: Player[];
+  private currentPlayer: Player | null;
+  private treasureDeck: Deck;
+  private doorDeck: Deck;
+  private discardPile: Deck;
+  private turnPhase: TurnPhase;
+  private turnIndex: number;
+  
   static readonly MIN_PLAYERS = 3;
   static readonly MAX_PLAYERS = 6;
 
-  constructor(players: Player[], treasureDeck: Deck, doorDeck: Deck) {
+  /**
+   * Construtor privado para impedir que outras partes do código instanciem
+   * a classe usando "new Game(...)". Apenas o método "getInstance" pode criar
+   * a instância.
+   */
+  private constructor(players: Player[], treasureDeck: Deck, doorDeck: Deck) {
     if (
       players.length < Game.MIN_PLAYERS ||
       players.length > Game.MAX_PLAYERS
@@ -28,12 +36,39 @@ export class Game {
     }
 
     this.players = players;
+    this.currentPlayer = null;
     this.treasureDeck = treasureDeck;
     this.doorDeck = doorDeck;
     this.discardPile = new Deck(DeckType.Discard);
     this.turnPhase = TurnPhase.START;
     this.turnIndex = 0;
-    this.actualPlayer = null;
+  }
+
+  /**
+   * Método estático que controla a existência de apenas uma instância de Game.
+   * @param players - Array de jogadores (Player[])
+   * @param treasureDeck - Deck de tesouros
+   * @param doorDeck - Deck de portas
+   */
+  public static getInstance(
+    players: Player[],
+    treasureDeck: Deck,
+    doorDeck: Deck
+  ): Game {
+    if (!Game.instance) {
+      Game.instance = new Game(players, treasureDeck, doorDeck);
+    }
+    return Game.instance;
+  }
+
+  /**
+   * Reseta o singleton (opcional):
+   * Em alguns cenários de teste ou reinicialização, pode ser útil permitir
+   * limpar a instância para criar uma nova, mas isso não costuma ser parte
+   * de um Singleton estrito.
+   */
+  public static resetInstance(): void {
+    Game.instance = null;
   }
 
   start(): void {
@@ -42,9 +77,8 @@ export class Game {
       console.log(`${player.name} está no nível ${player.level}`);
     });
 
-    // Define o primeiro jogador
-    this.actualPlayer = this.players[this.turnIndex];
-    console.log(`O primeiro jogador é ${this.actualPlayer.name}`);
+    this.currentPlayer = this.players[this.turnIndex];
+    console.log(`O primeiro jogador é ${this.currentPlayer.name}`);
   }
 
   addPlayer(player: Player): void {
@@ -69,7 +103,6 @@ export class Game {
     }
 
     const bot = new Bot(botName);
-    
     this.players.push(bot);
     console.log(`Bot ${bot.name} foi adicionado ao jogo.`);
   }
@@ -91,13 +124,12 @@ export class Game {
     const removedPlayer = this.players.splice(playerIndex, 1)[0];
     console.log(`Jogador ${removedPlayer.name} foi removido do jogo.`);
 
-    // Ajusta o jogador atual e índice do turno se necessário
-    if (this.actualPlayer?.name === removedPlayer.name) {
+    if (this.currentPlayer?.name === removedPlayer.name) {
       this.turnIndex = this.turnIndex % this.players.length;
-      this.actualPlayer = this.players[this.turnIndex] || null;
+      this.currentPlayer = this.players[this.turnIndex] || null;
       console.log(
         `O jogador atual foi atualizado para ${
-          this.actualPlayer ? this.actualPlayer.name : "nenhum"
+          this.currentPlayer ? this.currentPlayer.name : "nenhum"
         }.`
       );
     }
@@ -118,14 +150,14 @@ export class Game {
 
   nextTurn(): void {
     this.turnIndex = (this.turnIndex + 1) % this.players.length;
-    this.actualPlayer = this.players[this.turnIndex];
+    this.currentPlayer = this.players[this.turnIndex];
     this.turnPhase = TurnPhase.START;
 
-    if (this.actualPlayer instanceof Bot) {
-      this.actualPlayer.takeTurn(this); // Faz o bot executar sua vez automaticamente
+    if (this.currentPlayer instanceof Bot) {
+      this.currentPlayer.takeTurn(this); // Faz o bot executar sua vez automaticamente
     }
 
-    console.log(`Agora é a vez de ${this.actualPlayer.name}`);
+    console.log(`Agora é a vez de ${this.currentPlayer.name}`);
   }
 
   drawCard(player: Player, deckType: DeckType): Card | null {
