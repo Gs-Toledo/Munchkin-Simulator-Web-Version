@@ -28,8 +28,10 @@ export enum EffectType {
 
 export enum TurnPhase {
     START = "START",  
-    DRAW = "DRAW",    
-    PLAY = "PLAY",    
+    DRAW_CARD = "DRAW_CARD",    
+    PLAY_CARD = "PLAY_CARD",   
+    COMBAT = "COMBAT",
+    CHARITY = "CHARITY",
     END = "END"       
 }
 
